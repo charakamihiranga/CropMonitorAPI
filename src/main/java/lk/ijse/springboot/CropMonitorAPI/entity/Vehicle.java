@@ -16,7 +16,8 @@ public class Vehicle implements SuperEntity{
     private String licensePlateNumber;
     private String  vehicleCategory;
     private String fuelType;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
     private String remarks;
     @ManyToOne
     @JoinColumn(name = "staffId", referencedColumnName = "staffId")
