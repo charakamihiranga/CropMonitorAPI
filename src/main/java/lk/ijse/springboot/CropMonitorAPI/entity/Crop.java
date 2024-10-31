@@ -1,12 +1,11 @@
 package lk.ijse.springboot.CropMonitorAPI.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,5 +21,9 @@ public class Crop implements SuperEntity {
     private String cropImage;
     private String category;
     private String cropSeason;
-    // field entity =>  field
+    @ManyToOne
+    @JoinColumn(name = "fieldCode", referencedColumnName = "fieldCode")
+    private Field field;
+    @ManyToMany(mappedBy = "crops")
+    private List<MonitoringLog> monitoringLogs;
 }

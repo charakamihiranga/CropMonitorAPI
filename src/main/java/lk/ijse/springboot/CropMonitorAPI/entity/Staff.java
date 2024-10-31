@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,7 +15,7 @@ import java.util.Date;
 @Table(name = "staff")
 public class Staff implements SuperEntity{
     @Id
-    private String id;
+    private String staffId;
     private String firstName;
     private String lastName;
     private String designation;
@@ -31,7 +32,15 @@ public class Staff implements SuperEntity{
     private String email;
     @Enumerated(EnumType.STRING)
     private Role role;
-    // field list =>  fields => can null
-    // vehicle list =>  crops => can null
-
+    @ManyToMany(mappedBy = "staff")
+    private List<Field> fields;
+    @ManyToMany
+    @JoinTable(name = "monitoring_log_staff",
+            joinColumns = @JoinColumn(name = "staffId", referencedColumnName = "staffId"),
+            inverseJoinColumns = @JoinColumn(name = "logCode", referencedColumnName = "logCode"))
+    private List<MonitoringLog> monitoringLogs;
+    @OneToOne(mappedBy = "staff", optional = true)
+    private Equipment equipment;
+    @OneToMany(mappedBy = "staff")
+    private List<Vehicle> vehicles;
 }

@@ -1,14 +1,13 @@
 package lk.ijse.springboot.CropMonitorAPI.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.awt.*;
+import java.util.List;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,8 +24,16 @@ public class Field implements SuperEntity{
     private String fieldImage1;
     @Column(columnDefinition = "LONGTEXT")
     private String fieldImage2;
-
-    // crop list =>  crops
-    // staff list =>  staffs
+    @OneToMany(mappedBy = "field")
+    private List<Crop> crops;
+    @OneToMany(mappedBy = "field")
+    private List<Equipment> equipments;
+    @ManyToMany
+    @JoinTable(name = "field_staff",
+            joinColumns = @JoinColumn(name = "fieldCode", referencedColumnName = "fieldCode"),
+            inverseJoinColumns = @JoinColumn(name = "staffId", referencedColumnName = "staffId"))
+    private List<Staff> staff;
+    @ManyToMany(mappedBy = "fields")
+    private List<MonitoringLog> monitoringLogs;
 
 }

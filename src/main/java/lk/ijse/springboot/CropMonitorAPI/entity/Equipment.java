@@ -1,8 +1,6 @@
 package lk.ijse.springboot.CropMonitorAPI.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,8 +14,13 @@ public class Equipment implements SuperEntity{
     @Id
     private String equipmentId;
     private String name;
+    @Enumerated(EnumType.STRING)
     private EquipmentType type;
     private Status status;
-    // staff entity =>  assigned staff details // can be null
-    // field entity =>  assigned field details // can be null
+    @OneToOne(optional = true)
+    @JoinColumn(name = "staffId", referencedColumnName = "staffId")
+    private Staff staff;
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "fieldCode", referencedColumnName = "fieldCode")
+    private Field field;
 }

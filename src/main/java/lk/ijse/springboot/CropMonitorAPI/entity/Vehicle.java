@@ -1,8 +1,6 @@
 package lk.ijse.springboot.CropMonitorAPI.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,5 +18,7 @@ public class Vehicle implements SuperEntity{
     private String fuelType;
     private String status;
     private String remarks;
-    //  staff entity =>  allocated staff member
+    @ManyToOne
+    @JoinColumn(name = "staffId", referencedColumnName = "staffId")
+    private Staff staff;
 }
