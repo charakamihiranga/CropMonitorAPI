@@ -33,6 +33,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.0'
+	implementation 'ch.qos.logback:logback-classic'
+	implementation 'org.apache.logging.log4j:log4j-slf4j-impl'
 }
 
 tasks.named('test') {
