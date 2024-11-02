@@ -29,6 +29,7 @@ public class Staff implements SuperEntity{
     private String addressLine04;
     private String addressLine05;
     private String contactNo;
+    @Column(unique = true)
     private String email;
     @Enumerated(EnumType.STRING)
     private Role role;
