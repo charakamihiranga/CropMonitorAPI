@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 public class Vehicle implements SuperEntity{
     @Id
     private String vehicleCode;
+    @Column(unique = true)
     private String licensePlateNumber;
     private String  vehicleCategory;
     private String fuelType;
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    private String status;
     private String remarks;
     @ManyToOne
     @JoinColumn(name = "staffId", referencedColumnName = "staffId")

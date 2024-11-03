@@ -2,8 +2,6 @@ package lk.ijse.springboot.CropMonitorAPI.service;
 
 import lk.ijse.springboot.CropMonitorAPI.Repository.StaffRepository;
 import lk.ijse.springboot.CropMonitorAPI.dto.StaffDTO;
-import lk.ijse.springboot.CropMonitorAPI.entity.Gender;
-import lk.ijse.springboot.CropMonitorAPI.entity.Role;
 import lk.ijse.springboot.CropMonitorAPI.entity.Staff;
 import lk.ijse.springboot.CropMonitorAPI.exception.DataPersistFailedException;
 import lk.ijse.springboot.CropMonitorAPI.exception.StaffNotFoundException;
@@ -49,7 +47,7 @@ public class StaffServiceImpl implements StaffService{
         if (patchById.isEmpty()){
             throw new StaffNotFoundException("Staff not found");
         } else {
-            staff.setStaffId(staffId);
+            staff.setStaffId(patchById.get().getStaffId());
             staffRepository.save(mapping.map(staff, Staff.class));
         }
     }
@@ -59,7 +57,7 @@ public class StaffServiceImpl implements StaffService{
         if (staffRepository.existsById(staffId)){
            return mapping.map(staffRepository.getById(staffId), StaffDTO.class);
         } else {
-            return new StaffErrorResponse(0, "Staff not found");
+            return new StaffErrorResponse(404, "Staff not found");
         }
     }
 

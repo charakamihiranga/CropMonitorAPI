@@ -13,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class StaffDTO implements SuperDTO, StaffResponse {
-    @NotBlank
     private String staffId;
     @NotBlank
     @Size(max = 50)
