@@ -16,6 +16,7 @@ public class Equipment implements SuperEntity{
     private String name;
     @Enumerated(EnumType.STRING)
     private EquipmentType type;
+    @Enumerated(EnumType.STRING)
     private Status status;
     @OneToOne(optional = true)
     @JoinColumn(name = "staffId", referencedColumnName = "staffId")

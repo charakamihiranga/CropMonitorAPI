@@ -22,7 +22,7 @@ public class VehicleDTO implements SuperDTO, VehicleResponse {
     @Pattern(regexp = "^(available|out of service)$")
     private String status;
     @NotBlank
-    @Pattern(regexp = "^(?!\\s*$).+|N/A|or")
+    @Pattern(regexp = "^(?!\\s*$).+|N/A")
     private String remarks;
     private String staffId;
 }
