@@ -20,10 +20,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/staff")
 @RequiredArgsConstructor
-@Controller
-public class StaffController {
+public class StaffManagementController {
     private final StaffService staffService;
-    static Logger logger = LoggerFactory.getLogger(StaffController.class);
+    static Logger logger = LoggerFactory.getLogger(StaffManagementController.class);
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> saveStaff(@Valid @RequestBody StaffDTO staff){
         if (staff == null ){
@@ -62,7 +61,7 @@ public class StaffController {
         }
     }
     @PatchMapping(value = "/{staffId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> updateStaff(@PathVariable("staffId") String staffId, @RequestBody StaffDTO staff ){
+    public ResponseEntity<Void> updateStaff(@PathVariable("staffId") String staffId,@Valid @RequestBody StaffDTO staff ){
          try{
              if (staff == null && (staffId == null || staffId.isEmpty())) {
                  logger.warn("Invalid request: Staff object is null or Staff ID is null or empty");

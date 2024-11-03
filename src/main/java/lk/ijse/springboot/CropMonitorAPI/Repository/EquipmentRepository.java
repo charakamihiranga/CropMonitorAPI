@@ -1,9 +1,9 @@
 package lk.ijse.springboot.CropMonitorAPI.Repository;
 
-import lk.ijse.springboot.CropMonitorAPI.entity.Staff;
+import lk.ijse.springboot.CropMonitorAPI.entity.Equipment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface StaffRepository extends JpaRepository<Staff, String> {
+public interface EquipmentRepository extends JpaRepository<Equipment, String> {
 }
