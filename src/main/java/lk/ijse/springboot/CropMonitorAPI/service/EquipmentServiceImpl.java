@@ -1,7 +1,6 @@
 package lk.ijse.springboot.CropMonitorAPI.service;
 
 import lk.ijse.springboot.CropMonitorAPI.Repository.EquipmentRepository;
-import lk.ijse.springboot.CropMonitorAPI.Repository.StaffRepository;
 import lk.ijse.springboot.CropMonitorAPI.dto.EquipmentDTO;
 import lk.ijse.springboot.CropMonitorAPI.entity.Equipment;
 import lk.ijse.springboot.CropMonitorAPI.exception.DataPersistFailedException;
