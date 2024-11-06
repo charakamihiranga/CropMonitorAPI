@@ -47,7 +47,7 @@ public class FieldManagementController {
                fieldDTO.setFieldSize(fieldSize);
                fieldDTO.setFieldImage1(AppUtil.toBase64Pic(fieldImage1));
                fieldDTO.setFieldImage2(AppUtil.toBase64Pic(fieldImage2));
-               fieldDTO.setStaffIds(staffIds);
+               fieldDTO.setStaffIds(staffIds.isEmpty() ? null : staffIds);
                fieldService.saveField(fieldDTO);
                logger.info("Field with Field Code: {} saved successfully", fieldDTO.getFieldCode());
                return ResponseEntity.ok().build();
@@ -98,15 +98,15 @@ public class FieldManagementController {
                 fieldDTO.setFieldSize(fieldSize);
                 fieldDTO.setFieldImage1(AppUtil.toBase64Pic(fieldImage1));
                 fieldDTO.setFieldImage2(AppUtil.toBase64Pic(fieldImage2));
-                fieldDTO.setStaffIds(staffIds);
+                fieldDTO.setStaffIds(staffIds.isEmpty() ? null : staffIds);
                 fieldService.updateField(fieldCode, fieldDTO);
-                logger.info("Field with Field Code: {} updated successfully", fieldDTO.getFieldCode());
+                logger.info("Field with Field Code: {} updated successfully", fieldCode);
                 return ResponseEntity.noContent().build();
             } catch (FieldNotFoundException e) {
-                logger.error("Field with Field Code: {} not found for update", fieldDTO.getFieldCode());
+                logger.error("Field with Field Code: {} not found for update", fieldCode);
                 return ResponseEntity.notFound().build();
             } catch (Exception e) {
-                logger.error("Internal server error while updating field with Field Code: {}", fieldDTO.getFieldCode(), e);
+                logger.error("Internal server error while updating field with Field Code: {}", fieldCode, e);
                 return ResponseEntity.internalServerError().build();
             }
         }

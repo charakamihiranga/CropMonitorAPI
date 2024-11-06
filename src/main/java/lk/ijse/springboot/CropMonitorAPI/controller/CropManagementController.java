@@ -2,7 +2,9 @@ package lk.ijse.springboot.CropMonitorAPI.controller;
 
 import jakarta.validation.Valid;
 import lk.ijse.springboot.CropMonitorAPI.dto.CropDTO;
+import lk.ijse.springboot.CropMonitorAPI.exception.CropNotFoundException;
 import lk.ijse.springboot.CropMonitorAPI.exception.DataPersistFailedException;
+import lk.ijse.springboot.CropMonitorAPI.response.CropResponse;
 import lk.ijse.springboot.CropMonitorAPI.service.CropService;
 import lk.ijse.springboot.CropMonitorAPI.util.AppUtil;
 import lombok.RequiredArgsConstructor;
@@ -24,21 +26,20 @@ public class CropManagementController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> saveCrop(
-            @RequestParam("commonName")String commonName,
-            @RequestParam("scientificName")String scientificName,
-            @RequestParam("category")String category,
-            @RequestParam("season")String season,
-            @RequestParam("fieldCode")String fieldCode,
+            @Valid @RequestParam("commonName") String commonName,
+            @Valid @RequestParam("scientificName") String scientificName,
+            @Valid @RequestParam("category") String category,
+            @Valid @RequestParam("season") String season,
+            @Valid @RequestParam("fieldCode") String fieldCode,
             @RequestParam("monitoringLogCodes") List<String> monitoringLogCodes,
             @RequestParam("cropImage") MultipartFile cropImage
-    ) {
-        if (commonName == null || scientificName == null || category == null || season == null || fieldCode == null
-                || monitoringLogCodes == null || cropImage == null) {
+    ){
+        if (commonName == null || scientificName == null || category == null || season == null || fieldCode == null || cropImage == null) {
             logger.warn("Invalid request: Crop object or Crop Image is null");
             return ResponseEntity.badRequest().build();
         } else {
             CropDTO cropDTO = new CropDTO();
-            try {
+            try{
                 cropDTO.setCropCommonName(commonName);
                 cropDTO.setCropScientificName(scientificName);
                 cropDTO.setCategory(category);
@@ -47,15 +48,83 @@ public class CropManagementController {
                 cropDTO.setMonitoringLogCodes(monitoringLogCodes);
                 cropDTO.setCropImage(AppUtil.toBase64Pic(cropImage));
                 cropService.saveCrop(cropDTO);
-                logger.info("Crop with Crop Code: {} saved successfully", cropDTO.getCropCode());
+                logger.info("Crop with Crop Code: {} saved successfully", cropDTO.getCropCommonName());
                 return ResponseEntity.ok().build();
             } catch (DataPersistFailedException e) {
-                logger.warn("Failed to save crop: {}", cropDTO, e);
+                logger.error("Failed to save crop: {}", cropDTO, e);
                 return ResponseEntity.badRequest().build();
             } catch (Exception e) {
                 logger.error("Internal server error while saving crop: {}", cropDTO, e);
                 return ResponseEntity.internalServerError().build();
             }
         }
+    }
+
+    @DeleteMapping(value = "/{cropCode}")
+    public ResponseEntity<Void> deleteCrop(@PathVariable("cropCode") String cropCode){
+        try{
+            if (cropCode == null || cropCode.isEmpty()){
+                logger.warn("Invalid request: Crop Code is null or empty");
+                return ResponseEntity.badRequest().build();
+            } else {
+                cropService.deleteCrop(cropCode);
+                logger.info("Crop with Crop Code: {} deleted successfully", cropCode);
+                return ResponseEntity.noContent().build();
+            }
+        } catch (CropNotFoundException e){
+            logger.error("Crop with Crop Code: {} not found for deletion", cropCode);
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            logger.error("Internal server error while deleting crop with Crop Code: {}", cropCode, e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PatchMapping(value = "/{cropCode}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> updateCrop(
+            @PathVariable("cropCode") String cropCode,
+            @Valid @RequestParam("commonName") String commonName,
+            @Valid @RequestParam("scientificName") String scientificName,
+            @Valid @RequestParam("category") String category,
+            @Valid @RequestParam("season") String season,
+            @Valid @RequestParam("fieldCode") String fieldCode,
+            @RequestParam("monitoringLogCodes") List<String> monitoringLogCodes,
+            @RequestParam("cropImage") MultipartFile cropImage
+    ){
+        if ( cropCode == null || commonName == null || scientificName == null || category == null || season == null ||
+                fieldCode == null || cropImage == null) {
+            logger.warn("Invalid request: Crop object or Crop Image is null");
+            return ResponseEntity.badRequest().build();
+        } else {
+            CropDTO cropDTO = new CropDTO();
+            try{
+                cropDTO.setCropCommonName(commonName);
+                cropDTO.setCropScientificName(scientificName);
+                cropDTO.setCategory(category);
+                cropDTO.setCropSeason(season);
+                cropDTO.setFieldCode(fieldCode);
+                cropDTO.setMonitoringLogCodes(monitoringLogCodes);
+                cropDTO.setCropImage(AppUtil.toBase64Pic(cropImage));
+                cropService.updateCrop(cropCode, cropDTO);
+                logger.info("Crop with Crop Code: {} updated successfully", cropCode);
+                return ResponseEntity.noContent().build();
+            } catch (CropNotFoundException e){
+                logger.error("Crop with Crop Code: {} not found for update", cropCode);
+                return ResponseEntity.notFound().build();
+            } catch (Exception e) {
+                logger.error("Internal server error while updating crop with Crop Code: {}", cropCode, e);
+                return ResponseEntity.internalServerError().build();
+            }
+        }
+    }
+
+    @GetMapping(value = "/{cropCode}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public CropResponse getSelectedCrop(@PathVariable("cropCode") String cropCode){
+        return cropService.getSelectedCrop(cropCode);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CropDTO> getAllCrops(){
+        return cropService.getAllCrops();
     }
 }

@@ -1,8 +1,11 @@
 package lk.ijse.springboot.CropMonitorAPI.service;
 
+import jakarta.transaction.Transactional;
 import lk.ijse.springboot.CropMonitorAPI.Repository.FieldRepository;
+import lk.ijse.springboot.CropMonitorAPI.Repository.StaffRepository;
 import lk.ijse.springboot.CropMonitorAPI.dto.FieldDTO;
 import lk.ijse.springboot.CropMonitorAPI.entity.Field;
+import lk.ijse.springboot.CropMonitorAPI.entity.Staff;
 import lk.ijse.springboot.CropMonitorAPI.exception.DataPersistFailedException;
 import lk.ijse.springboot.CropMonitorAPI.exception.FieldNotFoundException;
 import lk.ijse.springboot.CropMonitorAPI.response.FieldErrorResponse;
@@ -15,15 +18,22 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class FieldServiceImpl implements FieldService{
     private final FieldRepository fieldRepository;
     private final Mapping mapping;
+    private final StaffRepository staffRepository;
 
     @Override
-    public void saveField(FieldDTO field) {
-        field.setFieldCode(AppUtil.generateId("FE"));
-        Field saved = fieldRepository.save(mapping.map(field, Field.class));
+    public void saveField(FieldDTO fieldDTO) {
+        fieldDTO.setFieldCode(AppUtil.generateId("FE"));
+        Field field = mapping.map(fieldDTO, Field.class);
+        if (fieldDTO.getStaffIds() != null && !fieldDTO.getStaffIds().isEmpty()){
+            List<Staff> staffList = staffRepository.findAllById(fieldDTO.getStaffIds());
+            field.setStaff(staffList);
+        }
+        Field saved = fieldRepository.save(field);
         if (saved.getFieldCode() == null){
             throw new DataPersistFailedException("Failed to save field data!");
         }
@@ -41,14 +51,15 @@ public class FieldServiceImpl implements FieldService{
 
     @Override
     public void updateField(String fieldCode, FieldDTO fieldDTO) {
-        fieldRepository.findById(fieldCode).ifPresentOrElse(
-                selectedField -> {
-                    fieldDTO.setFieldCode(selectedField.getFieldCode());
-                    fieldRepository.save(mapping.map(fieldDTO, Field.class));
-                }, () -> {
-                    throw new FieldNotFoundException("Field not found");
-                }
-        );
+        Field existingField = fieldRepository.findById(fieldCode)
+                .orElseThrow(() -> new FieldNotFoundException("Field not found!"));
+        Field map = mapping.map(fieldDTO, Field.class);
+        map.setFieldCode(existingField.getFieldCode());
+        if (fieldDTO.getStaffIds() != null && !fieldDTO.getStaffIds().isEmpty()){
+            List<Staff> staffList = staffRepository.findAllById(fieldDTO.getStaffIds());
+            map.setStaff(staffList);
+        }
+        fieldRepository.save(map);
     }
 
     @Override
