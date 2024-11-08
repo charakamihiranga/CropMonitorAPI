@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Date;
 import java.util.UUID;
 
 public class AppUtil {
@@ -18,5 +19,9 @@ public class AppUtil {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static Date getCurrentDateTime() {
+        return new Date();
     }
 }

@@ -1,5 +1,6 @@
 package lk.ijse.springboot.CropMonitorAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class Crop implements SuperEntity {
     private String cropImage;
     private String category;
     private String cropSeason;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "fieldCode", referencedColumnName = "fieldCode")
     private Field field;
