@@ -28,7 +28,7 @@ public class Field implements SuperEntity{
     private List<Crop> crops;
     @OneToMany(mappedBy = "field")
     private List<Equipment> equipments;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "field_staff",
             joinColumns = @JoinColumn(name = "fieldCode", referencedColumnName = "fieldCode"),
             inverseJoinColumns = @JoinColumn(name = "staffId", referencedColumnName = "staffId"))
