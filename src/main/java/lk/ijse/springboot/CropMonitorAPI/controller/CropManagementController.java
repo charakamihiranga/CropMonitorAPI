@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/crop")
 @RequiredArgsConstructor
-public class CropManagementController {
+public class    CropManagementController {
     private final CropService cropService;
     static Logger logger = LoggerFactory.getLogger(CropManagementController.class);
 
@@ -48,7 +48,7 @@ public class CropManagementController {
                 cropDTO.setMonitoringLogCodes(monitoringLogCodes);
                 cropDTO.setCropImage(AppUtil.toBase64Pic(cropImage));
                 cropService.saveCrop(cropDTO);
-                logger.info("Crop with Crop Code: {} saved successfully", cropDTO.getCropCommonName());
+                logger.info("Crop with Crop name: {} saved successfully", cropDTO.getCropCommonName());
                 return ResponseEntity.ok().build();
             } catch (DataPersistFailedException e) {
                 logger.error("Failed to save crop: {}", cropDTO, e);
