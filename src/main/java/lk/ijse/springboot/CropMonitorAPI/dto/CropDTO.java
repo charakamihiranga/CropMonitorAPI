@@ -26,6 +26,5 @@ public class CropDTO implements SuperDTO, CropResponse {
     private String cropSeason;
     @NotBlank
     private String fieldCode;
-    private List<String> monitoringLogCodes;
     private String cropImage;
 }
