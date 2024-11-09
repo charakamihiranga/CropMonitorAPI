@@ -1,12 +1,13 @@
-package lk.ijse.springboot.CropMonitorAPI.service;
+package lk.ijse.springboot.CropMonitorAPI.service.impl;
 
 import lk.ijse.springboot.CropMonitorAPI.Repository.VehicleRepository;
 import lk.ijse.springboot.CropMonitorAPI.dto.VehicleDTO;
 import lk.ijse.springboot.CropMonitorAPI.entity.Vehicle;
 import lk.ijse.springboot.CropMonitorAPI.exception.DataPersistFailedException;
 import lk.ijse.springboot.CropMonitorAPI.exception.VehicleNotFoundException;
-import lk.ijse.springboot.CropMonitorAPI.response.VehicleErrorResponse;
+import lk.ijse.springboot.CropMonitorAPI.response.impl.VehicleErrorResponse;
 import lk.ijse.springboot.CropMonitorAPI.response.VehicleResponse;
+import lk.ijse.springboot.CropMonitorAPI.service.VehicleService;
 import lk.ijse.springboot.CropMonitorAPI.util.AppUtil;
 import lk.ijse.springboot.CropMonitorAPI.util.Mapping;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,6 @@
 package lk.ijse.springboot.CropMonitorAPI.service;
 
 import lk.ijse.springboot.CropMonitorAPI.dto.StaffDTO;
-import lk.ijse.springboot.CropMonitorAPI.entity.Staff;
 import lk.ijse.springboot.CropMonitorAPI.response.StaffResponse;
 
 import java.util.List;

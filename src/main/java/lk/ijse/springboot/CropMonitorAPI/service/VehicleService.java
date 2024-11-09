@@ -1,6 +1,5 @@
 package lk.ijse.springboot.CropMonitorAPI.service;
 
-import jakarta.validation.Valid;
 import lk.ijse.springboot.CropMonitorAPI.dto.VehicleDTO;
 import lk.ijse.springboot.CropMonitorAPI.response.VehicleResponse;
 

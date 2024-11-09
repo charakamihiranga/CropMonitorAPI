@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "vehicle")
-public class Vehicle implements SuperEntity{
+public class Vehicle implements SuperEntity {
     @Id
     private String vehicleCode;
     @Column(unique = true)

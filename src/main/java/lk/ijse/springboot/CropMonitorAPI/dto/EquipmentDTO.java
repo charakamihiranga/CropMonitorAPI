@@ -1,6 +1,5 @@
 package lk.ijse.springboot.CropMonitorAPI.dto;
 
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

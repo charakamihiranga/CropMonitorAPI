@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/v1/monitoringLog")
 @RequiredArgsConstructor
@@ -106,4 +107,13 @@ public class MonitoringLogManagementController {
         }
     }
 
+    @GetMapping(value = "/{logCode}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public MonitoringLogResponse getSelectedMonitoringLog(@PathVariable("logCode") String logCode){
+        return monitoringLogService.getSelectedMonitoringLog(logCode);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<MonitoringLogDTO> getAllMonitoringLogs(){
+        return monitoringLogService.getAllMonitoringLogs();
+    }
 }
