@@ -1,12 +1,13 @@
-package lk.ijse.springboot.CropMonitorAPI.service;
+package lk.ijse.springboot.CropMonitorAPI.service.impl;
 
 import lk.ijse.springboot.CropMonitorAPI.Repository.StaffRepository;
 import lk.ijse.springboot.CropMonitorAPI.dto.StaffDTO;
 import lk.ijse.springboot.CropMonitorAPI.entity.Staff;
 import lk.ijse.springboot.CropMonitorAPI.exception.DataPersistFailedException;
 import lk.ijse.springboot.CropMonitorAPI.exception.StaffNotFoundException;
-import lk.ijse.springboot.CropMonitorAPI.response.StaffErrorResponse;
+import lk.ijse.springboot.CropMonitorAPI.response.impl.StaffErrorResponse;
 import lk.ijse.springboot.CropMonitorAPI.response.StaffResponse;
+import lk.ijse.springboot.CropMonitorAPI.service.StaffService;
 import lk.ijse.springboot.CropMonitorAPI.util.AppUtil;
 import lk.ijse.springboot.CropMonitorAPI.util.Mapping;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.Optional;
 @Service
 //@Transactional
 @RequiredArgsConstructor
-public class StaffServiceImpl implements StaffService{
+public class StaffServiceImpl implements StaffService {
     private final Mapping mapping;
     private final StaffRepository staffRepository;
 

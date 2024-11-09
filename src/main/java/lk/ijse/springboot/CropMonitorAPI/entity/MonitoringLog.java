@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "monitoring_log")
-public class MonitoringLog implements SuperEntity{
+public class MonitoringLog implements SuperEntity {
     @Id
     private String logCode;
     private Date logDate;

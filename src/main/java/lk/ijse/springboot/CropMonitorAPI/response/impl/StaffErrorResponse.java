@@ -1,5 +1,6 @@
-package lk.ijse.springboot.CropMonitorAPI.response;
+package lk.ijse.springboot.CropMonitorAPI.response.impl;
 
+import lk.ijse.springboot.CropMonitorAPI.response.StaffResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

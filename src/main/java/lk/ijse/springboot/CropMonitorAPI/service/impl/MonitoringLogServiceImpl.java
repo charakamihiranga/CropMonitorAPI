@@ -1,6 +1,5 @@
-package lk.ijse.springboot.CropMonitorAPI.service;
+package lk.ijse.springboot.CropMonitorAPI.service.impl;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lk.ijse.springboot.CropMonitorAPI.Repository.CropRepository;
 import lk.ijse.springboot.CropMonitorAPI.Repository.FieldRepository;
@@ -14,6 +13,7 @@ import lk.ijse.springboot.CropMonitorAPI.entity.Staff;
 import lk.ijse.springboot.CropMonitorAPI.exception.DataPersistFailedException;
 import lk.ijse.springboot.CropMonitorAPI.exception.MonitoringLogNotFoundException;
 import lk.ijse.springboot.CropMonitorAPI.response.MonitoringLogResponse;
+import lk.ijse.springboot.CropMonitorAPI.service.MonitoringLogService;
 import lk.ijse.springboot.CropMonitorAPI.util.AppUtil;
 import lk.ijse.springboot.CropMonitorAPI.util.Mapping;
 import lombok.RequiredArgsConstructor;

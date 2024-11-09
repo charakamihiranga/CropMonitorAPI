@@ -1,12 +1,13 @@
-package lk.ijse.springboot.CropMonitorAPI.service;
+package lk.ijse.springboot.CropMonitorAPI.service.impl;
 
 import lk.ijse.springboot.CropMonitorAPI.Repository.EquipmentRepository;
 import lk.ijse.springboot.CropMonitorAPI.dto.EquipmentDTO;
 import lk.ijse.springboot.CropMonitorAPI.entity.Equipment;
 import lk.ijse.springboot.CropMonitorAPI.exception.DataPersistFailedException;
 import lk.ijse.springboot.CropMonitorAPI.exception.EquipmentNotFoundException;
-import lk.ijse.springboot.CropMonitorAPI.response.EquipmentErrorResponse;
+import lk.ijse.springboot.CropMonitorAPI.response.impl.EquipmentErrorResponse;
 import lk.ijse.springboot.CropMonitorAPI.response.EquipmentResponse;
+import lk.ijse.springboot.CropMonitorAPI.service.EquipmentService;
 import lk.ijse.springboot.CropMonitorAPI.util.AppUtil;
 import lk.ijse.springboot.CropMonitorAPI.util.Mapping;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class EquipmentServiceImpl implements EquipmentService{
+public class EquipmentServiceImpl implements EquipmentService {
     private final Mapping mapping;
     private final EquipmentRepository equipmentRepository;
 

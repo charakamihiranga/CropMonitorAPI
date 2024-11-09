@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "field")
-public class Field implements SuperEntity{
+public class Field implements SuperEntity {
     @Id
     private String fieldCode;
     private String fieldName;
