@@ -10,12 +10,14 @@ import lk.ijse.springboot.CropMonitorAPI.util.AppUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/v1/monitoringLog")
@@ -106,4 +108,13 @@ public class MonitoringLogManagementController {
         }
     }
 
+    @GetMapping(value = "/{logCode}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public MonitoringLogResponse getSelectedMonitoringLog(@PathVariable("logCode") String logCode){
+        return monitoringLogService.getSelectedMonitoringLog(logCode);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<MonitoringLogDTO> getAllMonitoringLogs(){
+        return monitoringLogService.getAllMonitoringLogs();
+    }
 }
