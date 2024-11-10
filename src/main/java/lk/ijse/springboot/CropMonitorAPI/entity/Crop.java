@@ -26,6 +26,7 @@ public class Crop implements SuperEntity {
     @ManyToOne
     @JoinColumn(name = "fieldCode", referencedColumnName = "fieldCode")
     private Field field;
+    @JsonIgnore
     @ManyToMany(mappedBy = "crops")
     private List<MonitoringLog> monitoringLogs;
 }

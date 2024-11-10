@@ -1,5 +1,6 @@
 package lk.ijse.springboot.CropMonitorAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,15 +34,19 @@ public class Staff implements SuperEntity {
     private String email;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @JsonIgnore
     @ManyToMany(mappedBy = "staff")
     private List<Field> fields;
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "monitoring_log_staff",
             joinColumns = @JoinColumn(name = "staffId", referencedColumnName = "staffId"),
             inverseJoinColumns = @JoinColumn(name = "logCode", referencedColumnName = "logCode"))
     private List<MonitoringLog> monitoringLogs;
+    @JsonIgnore
     @OneToOne(mappedBy = "staff", optional = true)
     private Equipment equipment;
+    @JsonIgnore
     @OneToMany(mappedBy = "staff")
     private List<Vehicle> vehicles;
 }

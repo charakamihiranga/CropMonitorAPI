@@ -46,8 +46,4 @@ public class StaffDTO implements SuperDTO, StaffResponse {
     private String email;
     @NotBlank
     private String role;
-    private List<String> fieldCodes;
-    private List<String> monitoringLogCodes;
-    private String equipmentId;
-    private List<String> vehicleCodes;
 }

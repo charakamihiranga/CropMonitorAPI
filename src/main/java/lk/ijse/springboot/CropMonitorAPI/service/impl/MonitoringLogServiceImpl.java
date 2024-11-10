@@ -13,6 +13,7 @@ import lk.ijse.springboot.CropMonitorAPI.entity.Staff;
 import lk.ijse.springboot.CropMonitorAPI.exception.DataPersistFailedException;
 import lk.ijse.springboot.CropMonitorAPI.exception.MonitoringLogNotFoundException;
 import lk.ijse.springboot.CropMonitorAPI.response.MonitoringLogResponse;
+import lk.ijse.springboot.CropMonitorAPI.response.impl.MonitoringLogErrorResponse;
 import lk.ijse.springboot.CropMonitorAPI.service.MonitoringLogService;
 import lk.ijse.springboot.CropMonitorAPI.util.AppUtil;
 import lk.ijse.springboot.CropMonitorAPI.util.Mapping;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -96,25 +98,28 @@ public class MonitoringLogServiceImpl implements MonitoringLogService {
 
     @Override
     public MonitoringLogResponse getSelectedMonitoringLog(String logCode) {
-        return monitoringLogRepository.findById(logCode)
-                .map(log -> {
-                    MonitoringLogDTO dto = mapping.map(log, MonitoringLogDTO.class);
+        Optional<MonitoringLog> optionalLog = monitoringLogRepository.findById(logCode);
 
-                    dto.setFieldCodes(log.getFields().stream()
-                            .map(Field::getFieldCode)
-                            .collect(Collectors.toList()));
+        if (!optionalLog.isPresent()) {
+            return new MonitoringLogErrorResponse(404, "Monitoring Log not found");
+        } else {
+            MonitoringLog log = optionalLog.get();
+            MonitoringLogDTO dto = mapping.map(log, MonitoringLogDTO.class);
 
-                    dto.setCropCodes(log.getCrops().stream()
-                            .map(Crop::getCropCode)
-                            .collect(Collectors.toList()));
+            dto.setFieldCodes(log.getFields().stream()
+                    .map(Field::getFieldCode)
+                    .collect(Collectors.toList()));
 
-                    dto.setStaffIds(log.getStaff().stream()
-                            .map(Staff::getStaffId)
-                            .collect(Collectors.toList()));
+            dto.setCropCodes(log.getCrops().stream()
+                    .map(Crop::getCropCode)
+                    .collect(Collectors.toList()));
 
-                    return dto;
-                })
-                .orElseThrow(() -> new MonitoringLogNotFoundException("Monitoring Log not found"));
+            dto.setStaffIds(log.getStaff().stream()
+                    .map(Staff::getStaffId)
+                    .collect(Collectors.toList()));
+
+            return dto;
+        }
     }
 
     @Override

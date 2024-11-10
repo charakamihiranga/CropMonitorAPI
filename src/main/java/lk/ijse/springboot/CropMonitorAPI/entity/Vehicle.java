@@ -1,5 +1,6 @@
 package lk.ijse.springboot.CropMonitorAPI.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class Vehicle implements SuperEntity {
     private String fuelType;
     private String status;
     private String remarks;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "staffId", referencedColumnName = "staffId")
     private Staff staff;
