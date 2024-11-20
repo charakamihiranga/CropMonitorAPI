@@ -37,7 +37,7 @@ public class FieldManagementController {
             @RequestParam("staffIds") List<String> staffIds
             ) {
         if (fieldName == null || fieldImage1 == null || fieldImage2 == null) {
-            logger.warn("Invalid request: Field object or Field Image is null");
+            logger.warn("Invalid request : Field object or Field Image is null");
             return ResponseEntity.badRequest().build();
         } else {
            FieldDTO fieldDTO = new FieldDTO();

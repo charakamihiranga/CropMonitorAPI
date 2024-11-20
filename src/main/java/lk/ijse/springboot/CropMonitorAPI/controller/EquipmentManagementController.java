@@ -48,7 +48,7 @@ public class EquipmentManagementController {
     public ResponseEntity<Void> deleteEquipment(@PathVariable("equipmentId") String equipmentId) {
         try{
             if (equipmentId == null || equipmentId.isEmpty()){
-                logger.warn("Invalid request: Equipment ID is null or empty");
+                logger.warn("Invalid request : Equipment ID is null or empty");
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             equipmentService.deleteEquipment(equipmentId);
