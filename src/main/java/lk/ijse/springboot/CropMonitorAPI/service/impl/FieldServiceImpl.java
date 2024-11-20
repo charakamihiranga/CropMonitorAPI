@@ -1,6 +1,7 @@
 package lk.ijse.springboot.CropMonitorAPI.service.impl;
 
 import jakarta.transaction.Transactional;
+import lk.ijse.springboot.CropMonitorAPI.Repository.CropRepository;
 import lk.ijse.springboot.CropMonitorAPI.Repository.FieldRepository;
 import lk.ijse.springboot.CropMonitorAPI.Repository.StaffRepository;
 import lk.ijse.springboot.CropMonitorAPI.dto.FieldDTO;
@@ -25,6 +26,7 @@ public class FieldServiceImpl implements FieldService {
     private final FieldRepository fieldRepository;
     private final Mapping mapping;
     private final StaffRepository staffRepository;
+    private final CropRepository cropRepository;
 
     @Override
     public void saveField(FieldDTO fieldDTO) {
@@ -66,7 +68,12 @@ public class FieldServiceImpl implements FieldService {
     @Override
     public FieldResponse getSelectedField(String fieldCode) {
         if (fieldRepository.existsById(fieldCode)){
-            return mapping.map(fieldRepository.getById(fieldCode), FieldDTO.class);
+            Field byId = fieldRepository.getById(fieldCode);
+            FieldDTO map = mapping.map(byId, FieldDTO.class);
+            for (Staff staff : byId.getStaff()) {
+                map.setStaffIds(List.of(staff.getStaffId()));
+            }
+            return map;
         } else {
             return new FieldErrorResponse(404, "Field not found");
         }

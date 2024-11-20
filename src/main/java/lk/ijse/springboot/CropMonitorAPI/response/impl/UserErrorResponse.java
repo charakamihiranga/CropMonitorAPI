@@ -1,15 +1,15 @@
 package lk.ijse.springboot.CropMonitorAPI.response.impl;
 
-import lk.ijse.springboot.CropMonitorAPI.dto.MonitoringLogDTO;
-import lk.ijse.springboot.CropMonitorAPI.response.MonitoringLogResponse;
+import lk.ijse.springboot.CropMonitorAPI.response.UserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class MonitoringLogErrorResponse implements MonitoringLogResponse {
+public class UserErrorResponse implements UserResponse, Serializable {
     private int errorCode;
     private String errorMessage;
 }

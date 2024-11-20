@@ -26,8 +26,5 @@ public class FieldDTO implements SuperDTO, FieldResponse {
     private double fieldSize;
     private String fieldImage1;
     private String fieldImage2;
-    private List<String> cropCodes;
-    private List<String> equipmentIds;
     private List<String> staffIds;
-    private List<String> monitoringLogCodes;
 }
