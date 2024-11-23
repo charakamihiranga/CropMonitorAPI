@@ -10,6 +10,7 @@ import lk.ijse.springboot.CropMonitorAPI.response.impl.UserErrorResponse;
 import lk.ijse.springboot.CropMonitorAPI.service.UserService;
 import lk.ijse.springboot.CropMonitorAPI.util.Mapping;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -64,6 +65,15 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> getAllUsers() {
         return mapping.mapList(userRepository.findAll(), UserDTO.class);
     }
+
+    @Override
+    public UserDetailsService userDetailsService() {
+        return email -> {
+            return userRepository.findByEmail(email)
+                    .orElseThrow(() -> new UserNotFoundException("User not found"));
+        };
+    }
+
 
 
 }
