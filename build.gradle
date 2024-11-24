@@ -29,7 +29,7 @@ sonarqube {
 		property "sonar.projectKey", "CropMonitorAPI"
 		property "sonar.projectName", "CropMonitorAPI"
 		property "sonar.host.url", "http://localhost:9000"
-		property "sonar.token", "sqp_0a009aacafee858d0b28dbf6b53d74e7576e1867"
+		property "sonar.token", "sqp_188f5426317c9a2459939f2b3f9285946debc7f4"
 	}
 }
 
