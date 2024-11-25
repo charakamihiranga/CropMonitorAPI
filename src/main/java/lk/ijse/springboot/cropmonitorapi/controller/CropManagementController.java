@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/crop")
 @RequiredArgsConstructor
-public class    CropManagementController {
+public class CropManagementController {
     private final CropService cropService;
     static Logger logger = LoggerFactory.getLogger(CropManagementController.class);
 

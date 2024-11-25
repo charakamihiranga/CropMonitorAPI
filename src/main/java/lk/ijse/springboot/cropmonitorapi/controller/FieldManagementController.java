@@ -10,12 +10,12 @@ import lk.ijse.springboot.cropmonitorapi.util.AppUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.geo.Point;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
 import java.util.List;
 
 
@@ -43,7 +43,7 @@ public class FieldManagementController {
            FieldDTO fieldDTO = new FieldDTO();
            try {
                fieldDTO.setFieldName(fieldName);
-               fieldDTO.setFieldLocation(new Point((int) latitude, (int) longitude));
+               fieldDTO.setFieldLocation(new Point(longitude, latitude));
                fieldDTO.setFieldSize(fieldSize);
                fieldDTO.setFieldImage1(AppUtil.toBase64Pic(fieldImage1));
                fieldDTO.setFieldImage2(AppUtil.toBase64Pic(fieldImage2));
@@ -93,8 +93,8 @@ public class FieldManagementController {
         } else {
             FieldDTO fieldDTO = new FieldDTO();
             try {
-                fieldDTO.setFieldName(fieldName);
-                fieldDTO.setFieldLocation(new Point((int) latitude, (int) longitude));
+                fieldDTO.setFieldName(fieldName );
+                fieldDTO.setFieldLocation(new Point(longitude, latitude));
                 fieldDTO.setFieldSize(fieldSize);
                 fieldDTO.setFieldImage1(AppUtil.toBase64Pic(fieldImage1));
                 fieldDTO.setFieldImage2(AppUtil.toBase64Pic(fieldImage2));
