@@ -22,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/field")
 @RequiredArgsConstructor
+@CrossOrigin
 public class FieldManagementController {
     private final FieldService fieldService;
     static Logger logger = LoggerFactory.getLogger(FieldManagementController.class);

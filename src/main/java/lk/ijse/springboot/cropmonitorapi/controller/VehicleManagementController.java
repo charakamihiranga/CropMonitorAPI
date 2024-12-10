@@ -19,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/vehicle")
 @RequiredArgsConstructor
+@CrossOrigin
 public class VehicleManagementController {
     private final VehicleService vehicleService;
     static Logger logger = LoggerFactory.getLogger(VehicleManagementController.class);

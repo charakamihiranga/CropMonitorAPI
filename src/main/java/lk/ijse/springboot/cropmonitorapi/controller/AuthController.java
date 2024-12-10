@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
+@CrossOrigin
 public class AuthController {
     private final AuthenticationService authService;
     private final PasswordEncoder encoder = new BCryptPasswordEncoder(12);
