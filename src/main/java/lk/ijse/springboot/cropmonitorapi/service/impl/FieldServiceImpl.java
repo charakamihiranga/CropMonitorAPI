@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -67,12 +68,13 @@ public class FieldServiceImpl implements FieldService {
 
     @Override
     public FieldResponse getSelectedField(String fieldCode) {
-        if (fieldRepository.existsById(fieldCode)){
+        if (fieldRepository.existsById(fieldCode)) {
             Field byId = fieldRepository.getById(fieldCode);
             FieldDTO map = mapping.map(byId, FieldDTO.class);
-            for (Staff staff : byId.getStaff()) {
-                map.setStaffIds(List.of(staff.getStaffId()));
-            }
+            List<String> staffIds = byId.getStaff().stream()
+                    .map(Staff::getStaffId)
+                    .collect(Collectors.toList());
+            map.setStaffIds(staffIds);
             return map;
         } else {
             return new FieldErrorResponse(404, "Field not found");
