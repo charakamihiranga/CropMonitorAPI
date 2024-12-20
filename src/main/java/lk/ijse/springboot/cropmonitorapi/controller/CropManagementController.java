@@ -86,11 +86,10 @@ public class CropManagementController {
             @Valid @RequestParam("scientificName") String scientificName,
             @Valid @RequestParam("category") String category,
             @Valid @RequestParam("season") String season,
-            @Valid @RequestParam("fieldCode") String fieldCode,
-            @RequestParam("cropImage") MultipartFile cropImage
+            @Valid @RequestParam("fieldCode") String fieldCode
     ){
         if ( cropCode == null || commonName == null || scientificName == null || category == null || season == null ||
-                fieldCode == null || cropImage == null) {
+                fieldCode == null) {
             logger.warn("Invalid request: Crop object or Crop Image is null");
             return ResponseEntity.badRequest().build();
         } else {
@@ -101,7 +100,6 @@ public class CropManagementController {
                 cropDTO.setCategory(category);
                 cropDTO.setCropSeason(season);
                 cropDTO.setFieldCode(fieldCode);
-                cropDTO.setCropImage(AppUtil.toBase64Pic(cropImage));
                 cropService.updateCrop(cropCode, cropDTO);
                 logger.info("Crop with Crop Code: {} updated successfully", cropCode);
                 return ResponseEntity.noContent().build();
