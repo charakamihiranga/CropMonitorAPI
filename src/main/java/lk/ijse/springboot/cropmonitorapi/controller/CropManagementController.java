@@ -33,13 +33,13 @@ public class CropManagementController {
             @Valid @RequestParam("season") String season,
             @Valid @RequestParam("fieldCode") String fieldCode,
             @RequestParam("cropImage") MultipartFile cropImage
-    ){
+    ) {
         if (commonName == null || scientificName == null || category == null || season == null || fieldCode == null || cropImage == null) {
             logger.warn("Invalid request : Crop object or Crop Image is null");
             return ResponseEntity.badRequest().build();
         } else {
             CropDTO cropDTO = new CropDTO();
-            try{
+            try {
                 cropDTO.setCropCommonName(commonName);
                 cropDTO.setCropScientificName(scientificName);
                 cropDTO.setCategory(category);

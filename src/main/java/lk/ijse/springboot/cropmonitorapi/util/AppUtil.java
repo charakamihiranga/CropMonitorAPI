@@ -15,7 +15,6 @@ public class AppUtil {
     public static String toBase64Pic(MultipartFile image) throws IOException {
             byte[] picBytes = image.getBytes();
             return Base64.getEncoder().encodeToString(picBytes);
-
     }
 
     public static Date getCurrentDateTime() {
