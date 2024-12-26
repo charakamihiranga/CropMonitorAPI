@@ -86,7 +86,8 @@ public class CropManagementController {
             @Valid @RequestParam("scientificName") String scientificName,
             @Valid @RequestParam("category") String category,
             @Valid @RequestParam("season") String season,
-            @Valid @RequestParam("fieldCode") String fieldCode
+            @Valid @RequestParam("fieldCode") String fieldCode,
+            @RequestParam("cropImage") MultipartFile cropImage
     ){
         if ( cropCode == null || commonName == null || scientificName == null || category == null || season == null ||
                 fieldCode == null) {
@@ -100,6 +101,7 @@ public class CropManagementController {
                 cropDTO.setCategory(category);
                 cropDTO.setCropSeason(season);
                 cropDTO.setFieldCode(fieldCode);
+                cropDTO.setCropImage(AppUtil.toBase64Pic(cropImage));
                 cropService.updateCrop(cropCode, cropDTO);
                 logger.info("Crop with Crop Code: {} updated successfully", cropCode);
                 return ResponseEntity.noContent().build();

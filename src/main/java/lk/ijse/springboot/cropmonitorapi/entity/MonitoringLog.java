@@ -18,6 +18,7 @@ public class MonitoringLog implements SuperEntity {
     @Id
     private String logCode;
     private Date logDate;
+    @Column(columnDefinition = "LONGTEXT")
     private String observation;
     @Column(columnDefinition = "LONGTEXT")
     private String observedImage;
