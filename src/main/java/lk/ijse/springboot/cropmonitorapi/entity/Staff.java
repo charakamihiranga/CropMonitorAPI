@@ -35,7 +35,7 @@ public class Staff implements SuperEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
     @JsonIgnore
-    @ManyToMany(mappedBy = "staff", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "staff")
     private List<Field> fields;
     @JsonIgnore
     @ManyToMany
@@ -44,9 +44,9 @@ public class Staff implements SuperEntity {
             inverseJoinColumns = @JoinColumn(name = "logCode", referencedColumnName = "logCode"))
     private List<MonitoringLog> monitoringLogs;
     @JsonIgnore
-    @OneToOne(mappedBy = "staff", optional = true, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "staff", optional = true)
     private Equipment equipment;
     @JsonIgnore
-    @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "staff")
     private List<Vehicle> vehicles;
 }

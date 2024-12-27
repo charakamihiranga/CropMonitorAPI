@@ -23,7 +23,7 @@ public class Crop implements SuperEntity {
     private String category;
     private String cropSeason;
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "fieldCode", referencedColumnName = "fieldCode")
     private Field field;
     @JsonIgnore
