@@ -1,4 +1,4 @@
-package lk.ijse.springboot.cropmonitorapi.Repository;
+package lk.ijse.springboot.cropmonitorapi.repository;
 
 import lk.ijse.springboot.cropmonitorapi.entity.Vehicle;
 import org.springframework.data.jpa.repository.JpaRepository;

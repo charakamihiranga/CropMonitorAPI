@@ -1,6 +1,6 @@
 package lk.ijse.springboot.cropmonitorapi.service.impl;
 
-import lk.ijse.springboot.cropmonitorapi.Repository.VehicleRepository;
+import lk.ijse.springboot.cropmonitorapi.repository.VehicleRepository;
 import lk.ijse.springboot.cropmonitorapi.dto.VehicleDTO;
 import lk.ijse.springboot.cropmonitorapi.entity.Vehicle;
 import lk.ijse.springboot.cropmonitorapi.exception.DataPersistFailedException;

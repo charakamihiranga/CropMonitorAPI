@@ -1,6 +1,6 @@
 package lk.ijse.springboot.cropmonitorapi.service.impl;
 
-import lk.ijse.springboot.cropmonitorapi.Repository.CropRepository;
+import lk.ijse.springboot.cropmonitorapi.repository.CropRepository;
 import lk.ijse.springboot.cropmonitorapi.dto.CropDTO;
 import lk.ijse.springboot.cropmonitorapi.entity.Crop;
 import lk.ijse.springboot.cropmonitorapi.exception.CropNotFoundException;
