@@ -4,6 +4,9 @@ import jakarta.validation.Valid;
 import lk.ijse.springboot.cropmonitorapi.dto.UserDTO;
 import lk.ijse.springboot.cropmonitorapi.response.UserResponse;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+
 import java.util.List;
 
 public interface UserService {
@@ -12,4 +15,6 @@ public interface UserService {
     void updateUser(String email, UserDTO userDTO);
     UserResponse getUser(String email);
     List<UserDTO> getAllUsers();
+
+    UserDetailsService userDetailsService();
 }

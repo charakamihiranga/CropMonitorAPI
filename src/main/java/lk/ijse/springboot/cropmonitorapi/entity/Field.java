@@ -1,11 +1,12 @@
 package lk.ijse.springboot.cropmonitorapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.geo.Point;
 
-import java.awt.*;
 import java.util.List;
 
 
@@ -24,15 +25,19 @@ public class Field implements SuperEntity {
     private String fieldImage1;
     @Column(columnDefinition = "LONGTEXT")
     private String fieldImage2;
+    @JsonIgnore
     @OneToMany(mappedBy = "field")
     private List<Crop> crops;
+    @JsonIgnore
     @OneToMany(mappedBy = "field")
     private List<Equipment> equipments;
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinTable(name = "field_staff",
             joinColumns = @JoinColumn(name = "fieldCode", referencedColumnName = "fieldCode"),
             inverseJoinColumns = @JoinColumn(name = "staffId", referencedColumnName = "staffId"))
     private List<Staff> staff;
+    @JsonIgnore
     @ManyToMany(mappedBy = "fields")
     private List<MonitoringLog> monitoringLogs;
 

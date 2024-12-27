@@ -1,11 +1,11 @@
 package lk.ijse.springboot.cropmonitorapi.service.impl;
 
 
+import lk.ijse.springboot.cropmonitorapi.repository.EquipmentRepository;
 import lk.ijse.springboot.cropmonitorapi.dto.EquipmentDTO;
 import lk.ijse.springboot.cropmonitorapi.entity.Equipment;
 import lk.ijse.springboot.cropmonitorapi.exception.DataPersistFailedException;
 import lk.ijse.springboot.cropmonitorapi.exception.EquipmentNotFoundException;
-import lk.ijse.springboot.cropmonitorapi.repository.EquipmentRepository;
 import lk.ijse.springboot.cropmonitorapi.response.impl.EquipmentErrorResponse;
 import lk.ijse.springboot.cropmonitorapi.response.EquipmentResponse;
 import lk.ijse.springboot.cropmonitorapi.service.EquipmentService;
@@ -36,7 +36,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     public void deleteEquipment(String equipmentId) {
         Optional<Equipment> optEquipmentById = equipmentRepository.findById(equipmentId);
         if (optEquipmentById.isEmpty()){
-            throw new EquipmentNotFoundException("Equipment not found");
+            throw new EquipmentNotFoundException("Equipment not found ");
         } else {
             equipmentRepository.deleteById(equipmentId);
         }

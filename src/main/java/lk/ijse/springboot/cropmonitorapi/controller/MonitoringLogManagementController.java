@@ -21,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/monitoringLog")
 @RequiredArgsConstructor
+@CrossOrigin
 public class MonitoringLogManagementController {
     private final MonitoringLogService monitoringLogService;
     static Logger logger = LoggerFactory.getLogger(MonitoringLogManagementController.class);

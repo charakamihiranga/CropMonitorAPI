@@ -6,11 +6,13 @@ import lk.ijse.springboot.cropmonitorapi.entity.User;
 import lk.ijse.springboot.cropmonitorapi.exception.DataPersistFailedException;
 import lk.ijse.springboot.cropmonitorapi.exception.UserNotFoundException;
 import lk.ijse.springboot.cropmonitorapi.repository.UserRepository;
+
 import lk.ijse.springboot.cropmonitorapi.response.UserResponse;
 import lk.ijse.springboot.cropmonitorapi.response.impl.UserErrorResponse;
 import lk.ijse.springboot.cropmonitorapi.service.UserService;
 import lk.ijse.springboot.cropmonitorapi.util.Mapping;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -65,6 +67,15 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> getAllUsers() {
         return mapping.mapList(userRepository.findAll(), UserDTO.class);
     }
+
+    @Override
+    public UserDetailsService userDetailsService() {
+        return email -> {
+            return userRepository.findByEmail(email)
+                    .orElseThrow(() -> new UserNotFoundException("User not found"));
+        };
+    }
+
 
 
 }

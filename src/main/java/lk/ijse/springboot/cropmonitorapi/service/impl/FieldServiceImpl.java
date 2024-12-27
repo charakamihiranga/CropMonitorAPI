@@ -1,6 +1,7 @@
 package lk.ijse.springboot.cropmonitorapi.service.impl;
 
 import jakarta.transaction.Transactional;
+
 import lk.ijse.springboot.cropmonitorapi.dto.FieldDTO;
 import lk.ijse.springboot.cropmonitorapi.entity.Field;
 import lk.ijse.springboot.cropmonitorapi.entity.Staff;
@@ -9,6 +10,7 @@ import lk.ijse.springboot.cropmonitorapi.exception.FieldNotFoundException;
 import lk.ijse.springboot.cropmonitorapi.repository.CropRepository;
 import lk.ijse.springboot.cropmonitorapi.repository.FieldRepository;
 import lk.ijse.springboot.cropmonitorapi.repository.StaffRepository;
+
 import lk.ijse.springboot.cropmonitorapi.response.impl.FieldErrorResponse;
 import lk.ijse.springboot.cropmonitorapi.response.FieldResponse;
 import lk.ijse.springboot.cropmonitorapi.service.FieldService;
@@ -18,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -67,12 +70,13 @@ public class FieldServiceImpl implements FieldService {
 
     @Override
     public FieldResponse getSelectedField(String fieldCode) {
-        if (fieldRepository.existsById(fieldCode)){
+        if (fieldRepository.existsById(fieldCode)) {
             Field byId = fieldRepository.getById(fieldCode);
             FieldDTO map = mapping.map(byId, FieldDTO.class);
-            for (Staff staff : byId.getStaff()) {
-                map.setStaffIds(List.of(staff.getStaffId()));
-            }
+            List<String> staffIds = byId.getStaff().stream()
+                    .map(Staff::getStaffId)
+                    .collect(Collectors.toList());
+            map.setStaffIds(staffIds);
             return map;
         } else {
             return new FieldErrorResponse(404, "Field not found");

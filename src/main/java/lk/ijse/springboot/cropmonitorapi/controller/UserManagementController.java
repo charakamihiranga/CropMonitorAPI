@@ -21,6 +21,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user")
+@CrossOrigin
 public class UserManagementController {
     private final UserService userService;
     static Logger logger = LoggerFactory.getLogger(UserManagementController.class);

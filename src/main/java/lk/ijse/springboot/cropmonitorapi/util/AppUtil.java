@@ -12,13 +12,9 @@ public class AppUtil {
         return prefix + "-" + UUID.randomUUID();
     }
 
-    public static String toBase64Pic(MultipartFile image) {
-        try{
+    public static String toBase64Pic(MultipartFile image) throws IOException {
             byte[] picBytes = image.getBytes();
             return Base64.getEncoder().encodeToString(picBytes);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public static Date getCurrentDateTime() {
