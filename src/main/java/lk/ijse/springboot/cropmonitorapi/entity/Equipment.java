@@ -21,7 +21,7 @@ public class Equipment implements SuperEntity {
     @OneToOne(optional = true)
     @JoinColumn(name = "staffId", referencedColumnName = "staffId")
     private Staff staff;
-    @ManyToOne(optional = true)
+    @ManyToOne(optional = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "fieldCode", referencedColumnName = "fieldCode")
     private Field field;
 }
