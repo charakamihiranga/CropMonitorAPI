@@ -102,7 +102,7 @@ public class CropManagementController {
                 cropDTO.setCropSeason(season);
                 cropDTO.setFieldCode(fieldCode);
                 cropDTO.setCropImage(AppUtil.toBase64Pic(cropImage));
-                cropService.updateCrop(cropCode, cropDTO);
+                    cropService.updateCrop(cropCode, cropDTO);
                 logger.info("Crop with Crop Code: {} updated successfully", cropCode);
                 return ResponseEntity.noContent().build();
             } catch (CropNotFoundException e){
