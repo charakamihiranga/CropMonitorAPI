@@ -11,6 +11,7 @@ import lk.ijse.springboot.cropmonitorapi.service.UserService;
 import lk.ijse.springboot.cropmonitorapi.util.Mapping;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,10 +23,10 @@ public class UserServiceImpl implements UserService {
     private final Mapping mapping;
     private final UserRepository userRepository;
     // set encoder strength to 12 to make it more secure
-//    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
     @Override
     public void addUser(UserDTO userDTO) {
-//        userDTO.setPassword(encoder.encode(userDTO.getPassword()));
+        userDTO.setPassword(encoder.encode(userDTO.getPassword()));
         User saved = userRepository.save(mapping.map(userDTO, User.class));
         if (saved.getEmail() == null){
             throw new DataPersistFailedException("Failed to save the user");

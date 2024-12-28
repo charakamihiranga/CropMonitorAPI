@@ -60,7 +60,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             var userByEmail = userRepository.findByEmail(login.getEmail())
                     .orElseThrow(() -> new UserNotFoundException("User not found"));
             String generatedToken = jwtService.generateToken(userByEmail);
-            return AuthResponse.builder().token(generatedToken).build();
+            String userFullName = staffRepository.findFullNameByEmail(login.getEmail());
+            return AuthResponse.builder()
+                    .token(generatedToken)
+                    .userFullName(userFullName)
+                    .role(userByEmail.getRole())
+                    .build();
         } catch (UserNotFoundException | AuthenticationException e){
             throw new InvalidCredentialsException("Invalid credential");
         }

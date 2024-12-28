@@ -14,4 +14,6 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
     @Query("SELECT s.role FROM Staff s WHERE s.email = :email")
     Optional<Role> findRoleIfEmailExists(@Param("email") String email);
     boolean existsByEmail(String email);
+    @Query("SELECT CONCAT(s.firstName, ' ', s.lastName) FROM Staff s WHERE s.email = :email")
+    String findFullNameByEmail(@Param("email") String email);
 }
