@@ -47,6 +47,8 @@ public class UserServiceImpl implements UserService {
     public void updateUser(String email, UserDTO userDTO) {
         userRepository.findById(email).ifPresentOrElse(selectedUser -> {
             userDTO.setEmail(selectedUser.getEmail());
+            userDTO.setPassword(encoder.encode(userDTO.getPassword()));
+            userDTO.setRole(String.valueOf(selectedUser.getRole()));
             userRepository.save(mapping.map(userDTO, User.class));
         }, () -> {
             throw new UserNotFoundException("User not found");
