@@ -1,6 +1,7 @@
 package lk.ijse.springboot.cropmonitorapi.controller;
 
 import jakarta.validation.Valid;
+import lk.ijse.springboot.cropmonitorapi.dto.StaffCountDto;
 import lk.ijse.springboot.cropmonitorapi.dto.StaffDTO;
 import lk.ijse.springboot.cropmonitorapi.exception.DataPersistFailedException;
 import lk.ijse.springboot.cropmonitorapi.exception.StaffNotFoundException;
@@ -86,5 +87,9 @@ public class StaffManagementController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<StaffDTO> getAllStaff(){
         return staffService.getAllStaff();
+    }
+    @GetMapping("countByRoles")
+    public StaffCountDto getStaffCountByRoles() {
+        return staffService.getStaffCountByRoles();
     }
 }

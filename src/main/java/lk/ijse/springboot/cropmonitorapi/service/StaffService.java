@@ -1,5 +1,6 @@
 package lk.ijse.springboot.cropmonitorapi.service;
 
+import lk.ijse.springboot.cropmonitorapi.dto.StaffCountDto;
 import lk.ijse.springboot.cropmonitorapi.dto.StaffDTO;
 import lk.ijse.springboot.cropmonitorapi.response.StaffResponse;
 
@@ -11,4 +12,5 @@ public interface StaffService {
     void updateStaff(String staffId, StaffDTO staff);
     StaffResponse getSelectedStaff(String staffId);
     List<StaffDTO> getAllStaff();
+    StaffCountDto getStaffCountByRoles();
 }

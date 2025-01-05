@@ -12,7 +12,6 @@ import lk.ijse.springboot.cropmonitorapi.repository.StaffRepository;
 import lk.ijse.springboot.cropmonitorapi.repository.UserRepository;
 import lk.ijse.springboot.cropmonitorapi.service.AuthenticationService;
 import lk.ijse.springboot.cropmonitorapi.service.JwtService;
-import lk.ijse.springboot.cropmonitorapi.util.Mapping;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,7 +27,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final StaffRepository staffRepository;
     private final JwtService jwtService;
-    private final Mapping mapper;
     private final AuthenticationManager authenticationManager;
 
     @Override
@@ -60,11 +58,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             var userByEmail = userRepository.findByEmail(login.getEmail())
                     .orElseThrow(() -> new UserNotFoundException("User not found"));
             String generatedToken = jwtService.generateToken(userByEmail);
-            return AuthResponse.builder().token(generatedToken).build();
+            String userFullName = staffRepository.findFullNameByEmail(login.getEmail());
+            return AuthResponse.builder()
+                    .token(generatedToken)
+                    .userFullName(userFullName)
+                    .role(userByEmail.getRole())
+                    .build();
         } catch (UserNotFoundException | AuthenticationException e){
             throw new InvalidCredentialsException("Invalid credential");
         }
     }
+
+
 
     @Override
     public AuthResponse refreshToken(String accessToken) {

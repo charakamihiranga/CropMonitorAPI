@@ -13,5 +13,4 @@ public class CropMonitorApiApplication {
 	}
 	@Bean
 	public ModelMapper modelMapper() { return new ModelMapper(); }
-
 }

@@ -1,6 +1,8 @@
 package lk.ijse.springboot.cropmonitorapi.service.impl;
 
-
+import lk.ijse.springboot.cropmonitorapi.dto.StaffCountDto;
+import lk.ijse.springboot.cropmonitorapi.entity.Role;
+import lk.ijse.springboot.cropmonitorapi.repository.StaffRepository;
 import lk.ijse.springboot.cropmonitorapi.dto.StaffDTO;
 import lk.ijse.springboot.cropmonitorapi.entity.Staff;
 import lk.ijse.springboot.cropmonitorapi.exception.DataPersistFailedException;
@@ -66,5 +68,14 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public List<StaffDTO> getAllStaff() {
         return mapping.mapList(staffRepository.findAll(), StaffDTO.class);
+    }
+
+    @Override
+    public StaffCountDto getStaffCountByRoles() {
+        long managerCount = staffRepository.countByRole(Role.MANAGER);
+        long administrativeCount = staffRepository.countByRole(Role.ADMINISTRATIVE);
+        long scientistCount = staffRepository.countByRole(Role.SCIENTIST);
+
+        return new StaffCountDto(managerCount, administrativeCount, scientistCount);
     }
 }
