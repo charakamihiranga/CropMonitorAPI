@@ -1,5 +1,6 @@
 package lk.ijse.springboot.cropmonitorapi.service.impl;
 
+import lk.ijse.springboot.cropmonitorapi.dto.VehicleAvailabilityDto;
 import lk.ijse.springboot.cropmonitorapi.repository.VehicleRepository;
 import lk.ijse.springboot.cropmonitorapi.dto.VehicleDTO;
 import lk.ijse.springboot.cropmonitorapi.entity.Vehicle;
@@ -64,6 +65,13 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public List<VehicleDTO> getAllVehicles() {
         return mapping.mapList(vehicleRepository.findAll(), VehicleDTO.class);
+    }
+
+    @Override
+    public VehicleAvailabilityDto getVehicleAvailabilityCount() {
+        long availableCount = vehicleRepository.countByStatus("available");
+        long unAvailableCount = vehicleRepository.countByStatus("unavailable");
+        return new VehicleAvailabilityDto(availableCount, unAvailableCount);
     }
 
 }

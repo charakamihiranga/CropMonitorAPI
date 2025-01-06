@@ -1,6 +1,7 @@
 package lk.ijse.springboot.cropmonitorapi.controller;
 
 import jakarta.validation.Valid;
+import lk.ijse.springboot.cropmonitorapi.dto.VehicleAvailabilityDto;
 import lk.ijse.springboot.cropmonitorapi.dto.VehicleDTO;
 import lk.ijse.springboot.cropmonitorapi.exception.DataPersistFailedException;
 import lk.ijse.springboot.cropmonitorapi.exception.VehicleNotFoundException;
@@ -91,6 +92,11 @@ public class VehicleManagementController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<VehicleDTO> getAllVehicles(){
         return vehicleService.getAllVehicles();
+    }
+
+    @GetMapping("getAvailabilityCount")
+    public VehicleAvailabilityDto getVehicleAvailabilityCount() {
+        return vehicleService.getVehicleAvailabilityCount();
     }
 
 }
