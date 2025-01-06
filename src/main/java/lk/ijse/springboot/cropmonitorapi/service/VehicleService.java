@@ -1,5 +1,6 @@
 package lk.ijse.springboot.cropmonitorapi.service;
 
+import lk.ijse.springboot.cropmonitorapi.dto.VehicleAvailabilityDto;
 import lk.ijse.springboot.cropmonitorapi.dto.VehicleDTO;
 import lk.ijse.springboot.cropmonitorapi.response.VehicleResponse;
 
@@ -11,4 +12,5 @@ public interface VehicleService {
     void updateVehicle(String vehicleCode, VehicleDTO vehicle);
     VehicleResponse getSelectedVehicle(String vehicleCode);
     List<VehicleDTO> getAllVehicles();
+    VehicleAvailabilityDto getVehicleAvailabilityCount();
 }
