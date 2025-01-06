@@ -1,5 +1,6 @@
 package lk.ijse.springboot.cropmonitorapi.jwtmodels;
 
+
 import lombok.*;
 
 @AllArgsConstructor

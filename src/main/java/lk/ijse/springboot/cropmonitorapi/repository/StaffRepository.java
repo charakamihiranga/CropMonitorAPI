@@ -1,5 +1,6 @@
 package lk.ijse.springboot.cropmonitorapi.repository;
 
+
 import lk.ijse.springboot.cropmonitorapi.entity.Role;
 import lk.ijse.springboot.cropmonitorapi.entity.Staff;
 import org.springframework.data.jpa.repository.JpaRepository;
