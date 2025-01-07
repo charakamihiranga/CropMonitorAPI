@@ -4,6 +4,7 @@ import lk.ijse.springboot.cropmonitorapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -43,6 +44,36 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("api/v1/auth/**",
                                 "/api/v1/healthTest").permitAll()
+                        // crop management endpoints
+                        .requestMatchers(HttpMethod.POST, "/api/v1/crop/**").hasAnyRole("MANAGER", "SCIENTIST")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/crop/**").hasAnyRole("MANAGER", "SCIENTIST", "ADMINISTRATIVE")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/crop/**").hasAnyRole("MANAGER", "SCIENTIST")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/crop/**").hasAnyRole("MANAGER", "SCIENTIST")
+                        // equipment management endpoints
+                        .requestMatchers(HttpMethod.POST, "/api/v1/equipment/**").hasAnyRole("MANAGER", "ADMINISTRATIVE")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/equipment/**").hasAnyRole("MANAGER", "SCIENTIST", "ADMINISTRATIVE")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/equipment/**").hasAnyRole("MANAGER", "ADMINISTRATIVE")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/equipment/**").hasAnyRole("MANAGER", "ADMINISTRATIVE")
+                        // field management endpoints
+                        .requestMatchers(HttpMethod.POST, "/api/v1/field/**").hasAnyRole("MANAGER", "SCIENTIST")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/field/**").hasAnyRole("MANAGER", "SCIENTIST", "ADMINISTRATIVE")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/field/**").hasAnyRole("MANAGER", "SCIENTIST")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/field/**").hasAnyRole("MANAGER", "SCIENTIST")
+                        // log management endpoints
+                        .requestMatchers(HttpMethod.POST, "/api/v1/monitoringlog/**").hasAnyRole("MANAGER", "SCIENTIST")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/monitoringlog/**").hasAnyRole("MANAGER", "SCIENTIST", "ADMINISTRATIVE")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/monitoringlog/**").hasAnyRole("MANAGER", "SCIENTIST")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/monitoringlog/**").hasAnyRole("MANAGER", "SCIENTIST")
+                        // staff management endpoints
+                        .requestMatchers(HttpMethod.POST, "/api/v1/staff/**").hasAnyRole("MANAGER", "ADMINISTRATIVE")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/staff/**").hasAnyRole("MANAGER", "SCIENTIST", "ADMINISTRATIVE")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/staff/**").hasAnyRole("MANAGER", "ADMINISTRATIVE")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/staff/**").hasAnyRole("MANAGER", "ADMINISTRATIVE")
+                        // vehicle management endpoints
+                        .requestMatchers(HttpMethod.POST, "/api/v1/vehicle/**").hasAnyRole("MANAGER", "ADMINISTRATIVE")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/vehicle/**").hasAnyRole("MANAGER", "SCIENTIST", "ADMINISTRATIVE")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/vehicle/**").hasAnyRole("MANAGER", "ADMINISTRATIVE")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/vehicle/**").hasAnyRole("MANAGER", "ADMINISTRATIVE")
                         .anyRequest().authenticated())
                         .sessionManagement(session -> session
                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

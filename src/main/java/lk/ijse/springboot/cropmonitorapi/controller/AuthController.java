@@ -16,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
@@ -36,6 +38,8 @@ public class AuthController {
             return ResponseEntity.ok(authService.registerUser(user));
         } catch (UserAlreadyExistsException e){
             return ResponseEntity.status(HttpStatus.CONFLICT).build(); // this returns a 409 status code when the user already exists
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // this returns a 403 status code when the user is not allowed to register
         } catch (UserNotFoundException e) {
           return ResponseEntity.notFound().build(); // this returns a 404 status code when the staff is not found
         } catch (DataPersistFailedException e) {
