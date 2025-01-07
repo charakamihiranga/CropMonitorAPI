@@ -19,6 +19,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
 import java.util.Optional;
 
 @Service
@@ -30,19 +31,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public AuthResponse registerUser(RegisterUser user) {
+    public AuthResponse registerUser(RegisterUser user) throws AccessDeniedException {
         if (!userRepository.existsUserByEmail(user.getEmail())) {
             Optional<Role> optionalRole = staffRepository.findRoleIfEmailExists(user.getEmail());
-
-            if (optionalRole.isPresent() && optionalRole.get() == Role.MANAGER) {
-                User register = new User(
-                        user.getEmail(),
-                        user.getPassword(),
-                        optionalRole.get()
-                );
-                User saved = userRepository.save(register);
-                String generatedToken = jwtService.generateToken(saved);
-                return AuthResponse.builder().token(generatedToken).build();
+            if (optionalRole.isPresent()) {
+                if (optionalRole.get() != Role.OTHER) {
+                    User register = new User(
+                            user.getEmail(),
+                            user.getPassword(),
+                            optionalRole.get()
+                    );
+                    User saved = userRepository.save(register);
+                    String generatedToken = jwtService.generateToken(saved);
+                    return AuthResponse.builder().token(generatedToken).build();
+                } else {
+                    throw new AccessDeniedException("You are not allowed to register as a user");
+                }
             } else {
                 throw new UserNotFoundException("Cannot find manager assigned with this email");
             }
