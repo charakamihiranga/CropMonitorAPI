@@ -45,7 +45,6 @@ public class CropServiceImpl implements CropService {
         cropRepository.findById(cropCode).ifPresentOrElse(
                 selectedCrop -> {
                     cropDTO.setCropCode(selectedCrop.getCropCode());
-                    cropDTO.setCropImage(selectedCrop.getCropImage());
                     cropRepository.save(mapping.map(cropDTO, Crop.class));
                 }, () -> {
                     throw new CropNotFoundException("Crop not found");

@@ -43,7 +43,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     );
                     User saved = userRepository.save(register);
                     String generatedToken = jwtService.generateToken(saved);
-                    return AuthResponse.builder().token(generatedToken).build();
+                    String userFullName = staffRepository.findFullNameByEmail(user.getEmail());
+                    return AuthResponse.builder()
+                            .token(generatedToken)
+                            .userFullName(userFullName)
+                            .role(saved.getRole())
+                            .build();
                 } else {
                     throw new AccessDeniedException("You are not allowed to register as a user");
                 }
