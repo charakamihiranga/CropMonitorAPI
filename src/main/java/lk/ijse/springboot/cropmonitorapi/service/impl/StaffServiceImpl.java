@@ -2,6 +2,7 @@ package lk.ijse.springboot.cropmonitorapi.service.impl;
 
 import lk.ijse.springboot.cropmonitorapi.dto.StaffCountDto;
 import lk.ijse.springboot.cropmonitorapi.entity.Role;
+import lk.ijse.springboot.cropmonitorapi.exception.EmailAlreadyExistsException;
 import lk.ijse.springboot.cropmonitorapi.repository.StaffRepository;
 import lk.ijse.springboot.cropmonitorapi.dto.StaffDTO;
 import lk.ijse.springboot.cropmonitorapi.entity.Staff;
@@ -28,12 +29,17 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public void saveStaff(StaffDTO staffDTO) {
-       staffDTO.setStaffId(AppUtil.generateId("STAFF"));
-        Staff savedEntity = staffRepository.save(mapping.map(staffDTO, Staff.class));
-        if (savedEntity.getStaffId() == null){
+        staffDTO.setStaffId(AppUtil.generateId("STAFF"));
+        if (staffRepository.existsByEmail(staffDTO.getEmail())) {
+            throw new EmailAlreadyExistsException("Email already exists");
+        }
+        Staff staffEntity = mapping.map(staffDTO, Staff.class);
+        Staff savedEntity = staffRepository.save(staffEntity);
+        if (savedEntity.getStaffId() == null) {
             throw new DataPersistFailedException("Failed to save staff data!");
         }
     }
+
 
     @Override
     public void deleteStaff(String staffId) {
@@ -47,13 +53,19 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public void updateStaff(String staffId, StaffDTO staff) {
-        Optional<Staff> patchById = staffRepository.findById(staffId);
-        if (patchById.isEmpty()){
+        Optional<Staff> existingStaff = staffRepository.findById(staffId);
+
+        if (existingStaff.isEmpty()) {
             throw new StaffNotFoundException("Staff not found");
-        } else {
-            staff.setStaffId(patchById.get().getStaffId());
-            staffRepository.save(mapping.map(staff, Staff.class));
         }
+
+        if (staffRepository.existsByEmail(staff.getEmail()) &&
+                !existingStaff.get().getEmail().equals(staff.getEmail())) {
+            throw new EmailAlreadyExistsException("Email already exists");
+        }
+
+        staff.setStaffId(existingStaff.get().getStaffId());
+        staffRepository.save(mapping.map(staff, Staff.class));
     }
 
     @Override

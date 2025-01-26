@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lk.ijse.springboot.cropmonitorapi.dto.StaffCountDto;
 import lk.ijse.springboot.cropmonitorapi.dto.StaffDTO;
 import lk.ijse.springboot.cropmonitorapi.exception.DataPersistFailedException;
+import lk.ijse.springboot.cropmonitorapi.exception.EmailAlreadyExistsException;
 import lk.ijse.springboot.cropmonitorapi.exception.StaffNotFoundException;
 import lk.ijse.springboot.cropmonitorapi.response.StaffResponse;
 import lk.ijse.springboot.cropmonitorapi.service.StaffService;
@@ -37,6 +38,9 @@ public class StaffManagementController {
             } catch (DataPersistFailedException e) {
                 logger.error("Failed to save staff: {}", staff, e);
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            } catch (EmailAlreadyExistsException e) {
+                logger.error("Email already exists: {}", staff.getEmail(), e);
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
             } catch (Exception e) {
                 logger.error("Internal server error while saving staff: {}", staff, e);
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
