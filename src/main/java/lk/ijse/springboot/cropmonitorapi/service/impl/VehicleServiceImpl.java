@@ -1,6 +1,9 @@
 package lk.ijse.springboot.cropmonitorapi.service.impl;
 
 import lk.ijse.springboot.cropmonitorapi.dto.VehicleAvailabilityDto;
+import lk.ijse.springboot.cropmonitorapi.entity.Staff;
+import lk.ijse.springboot.cropmonitorapi.exception.StaffNotFoundException;
+import lk.ijse.springboot.cropmonitorapi.repository.StaffRepository;
 import lk.ijse.springboot.cropmonitorapi.repository.VehicleRepository;
 import lk.ijse.springboot.cropmonitorapi.dto.VehicleDTO;
 import lk.ijse.springboot.cropmonitorapi.entity.Vehicle;
@@ -22,6 +25,8 @@ import java.util.Optional;
 public class VehicleServiceImpl implements VehicleService {
     private final Mapping mapping;
     private final VehicleRepository vehicleRepository;
+    private final StaffRepository staffRepository;
+
     @Override
     public void saveVehicle(VehicleDTO vehicleDTO) {
         vehicleDTO.setVehicleCode(AppUtil.generateId("VEH"));
@@ -42,15 +47,18 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public void updateVehicle(String vehicleCode, VehicleDTO vehicle) {
-        vehicleRepository.findById(vehicleCode).ifPresentOrElse(
-                selectedVehicle -> {
-                    vehicle.setVehicleCode(selectedVehicle.getVehicleCode());
-                    vehicleRepository.save(mapping.map(vehicle, Vehicle.class));
-                }, () -> {
-                    throw new VehicleNotFoundException("Vehicle not found");
-                }
-        );
+    public void updateVehicle(String vehicleCode, VehicleDTO vehicleDto) {
+        Vehicle selectedVehicle = vehicleRepository.findById(vehicleCode)
+                .orElseThrow(() -> new VehicleNotFoundException("Vehicle not found with code: " + vehicleCode));
+
+        Vehicle mappedVehicle = mapping.map(vehicleDto, Vehicle.class);
+        mappedVehicle.setVehicleCode(selectedVehicle.getVehicleCode());
+
+        Staff staff = staffRepository.findById(vehicleDto.getStaffId())
+                .orElseThrow(() -> new StaffNotFoundException("Staff not found with ID: " + vehicleDto.getStaffId()));
+        mappedVehicle.setStaff(staff);
+
+        vehicleRepository.save(mappedVehicle);
     }
 
     @Override

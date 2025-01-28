@@ -26,10 +26,10 @@ public class Field implements SuperEntity {
     @Column(columnDefinition = "LONGTEXT")
     private String fieldImage2;
     @JsonIgnore
-    @OneToMany(mappedBy = "field")
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL)
     private List<Crop> crops;
     @JsonIgnore
-    @OneToMany(mappedBy = "field")
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL)
     private List<Equipment> equipments;
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
@@ -38,7 +38,7 @@ public class Field implements SuperEntity {
             inverseJoinColumns = @JoinColumn(name = "staffId", referencedColumnName = "staffId"))
     private List<Staff> staff;
     @JsonIgnore
-    @ManyToMany(mappedBy = "fields")
+    @ManyToMany(mappedBy = "fields", cascade = CascadeType.ALL)
     private List<MonitoringLog> monitoringLogs;
 
 }

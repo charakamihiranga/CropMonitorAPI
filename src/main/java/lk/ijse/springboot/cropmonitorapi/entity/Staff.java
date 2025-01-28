@@ -35,10 +35,10 @@ public class Staff implements SuperEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
     @JsonIgnore
-    @ManyToMany(mappedBy = "staff")
+    @ManyToMany(mappedBy = "staff", cascade = CascadeType.ALL)
     private List<Field> fields;
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "monitoring_log_staff",
             joinColumns = @JoinColumn(name = "staffId", referencedColumnName = "staffId"),
             inverseJoinColumns = @JoinColumn(name = "logCode", referencedColumnName = "logCode"))
@@ -47,6 +47,6 @@ public class Staff implements SuperEntity {
     @OneToOne(mappedBy = "staff", optional = true)
     private Equipment equipment;
     @JsonIgnore
-    @OneToMany(mappedBy = "staff")
+    @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL)
     private List<Vehicle> vehicles;
 }

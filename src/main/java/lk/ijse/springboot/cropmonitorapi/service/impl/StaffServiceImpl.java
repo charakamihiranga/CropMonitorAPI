@@ -58,12 +58,6 @@ public class StaffServiceImpl implements StaffService {
         if (existingStaff.isEmpty()) {
             throw new StaffNotFoundException("Staff not found");
         }
-
-        if (staffRepository.existsByEmail(staff.getEmail()) &&
-                !existingStaff.get().getEmail().equals(staff.getEmail())) {
-            throw new EmailAlreadyExistsException("Email already exists");
-        }
-
         staff.setStaffId(existingStaff.get().getStaffId());
         staffRepository.save(mapping.map(staff, Staff.class));
     }

@@ -1,10 +1,13 @@
 package lk.ijse.springboot.cropmonitorapi.service.impl;
 
+import lk.ijse.springboot.cropmonitorapi.entity.Field;
+import lk.ijse.springboot.cropmonitorapi.exception.FieldNotFoundException;
 import lk.ijse.springboot.cropmonitorapi.repository.CropRepository;
 import lk.ijse.springboot.cropmonitorapi.dto.CropDTO;
 import lk.ijse.springboot.cropmonitorapi.entity.Crop;
 import lk.ijse.springboot.cropmonitorapi.exception.CropNotFoundException;
 import lk.ijse.springboot.cropmonitorapi.exception.DataPersistFailedException;
+import lk.ijse.springboot.cropmonitorapi.repository.FieldRepository;
 import lk.ijse.springboot.cropmonitorapi.response.impl.CropErrorResponse;
 import lk.ijse.springboot.cropmonitorapi.response.CropResponse;
 import lk.ijse.springboot.cropmonitorapi.service.CropService;
@@ -21,10 +24,15 @@ import java.util.Optional;
 public class CropServiceImpl implements CropService {
     private final CropRepository cropRepository;
     private final Mapping mapping;
+    private final FieldRepository fieldRepository;
+
     @Override
     public void saveCrop(CropDTO cropDTO) {
         cropDTO.setCropCode(AppUtil.generateId("CR"));
-        Crop saved = cropRepository.save(mapping.map(cropDTO, Crop.class));
+        Crop crop = mapping.map(cropDTO, Crop.class);
+        Field field = fieldRepository.findById(cropDTO.getFieldCode()).orElseThrow(() -> new CropNotFoundException("Field not found"));
+        crop.setField(field);
+        Crop saved = cropRepository.save(crop);
         if (saved.getCropCode() == null){
             throw new DataPersistFailedException("Failed to save crop data");
         }
@@ -42,14 +50,20 @@ public class CropServiceImpl implements CropService {
 
     @Override
     public void updateCrop(String cropCode, CropDTO cropDTO) {
-        cropRepository.findById(cropCode).ifPresentOrElse(
-                selectedCrop -> {
-                    cropDTO.setCropCode(selectedCrop.getCropCode());
-                    cropRepository.save(mapping.map(cropDTO, Crop.class));
-                }, () -> {
-                    throw new CropNotFoundException("Crop not found");
-                }
-        );
+        Crop crop = cropRepository.findById(cropCode)
+                .orElseThrow(() -> new CropNotFoundException("Crop not found with code: " + cropCode));
+
+        Field field = fieldRepository.findById(cropDTO.getFieldCode())
+                .orElseThrow(() -> new FieldNotFoundException("Field not found with code: " + cropDTO.getFieldCode()));
+
+        crop.setCropCommonName(cropDTO.getCropCommonName());
+        crop.setCategory(cropDTO.getCategory());
+        crop.setCropSeason(cropDTO.getCropSeason());
+        crop.setCropScientificName(cropDTO.getCropScientificName());
+        crop.setCropImage(cropDTO.getCropImage());
+        crop.setField(field);
+
+        cropRepository.save(crop);
     }
 
     @Override
