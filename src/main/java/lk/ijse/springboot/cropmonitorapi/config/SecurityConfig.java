@@ -42,8 +42,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("api/v1/auth/**",
-                                "/api/v1/healthTest").permitAll()
+                        .requestMatchers("api/v1/auth/**").permitAll()
                         // crop management endpoints
                         .requestMatchers(HttpMethod.POST, "/api/v1/crop/**").hasAnyRole("MANAGER", "SCIENTIST")
                         .requestMatchers(HttpMethod.GET, "/api/v1/crop/**").hasAnyRole("MANAGER", "SCIENTIST", "ADMINISTRATIVE")
